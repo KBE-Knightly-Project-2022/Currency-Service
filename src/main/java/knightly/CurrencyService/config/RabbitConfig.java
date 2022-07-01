@@ -13,7 +13,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    @Value("${queue.name}")
+    @Value("${routing.key.currency.service}")
+    private String routingKeyCurrencyService;
+
+    @Value("${currency.queue.name}")
     private String queueName;
 
     @Value("${xchange.name}")
@@ -31,7 +34,7 @@ public class RabbitConfig {
 
     @Bean
     public Binding binding(DirectExchange exchange, Queue queue) {
-        return BindingBuilder.bind(queue).to(exchange).with("knightly");
+        return BindingBuilder.bind(queue).to(exchange).with(routingKeyCurrencyService);
     }
 
     @Bean

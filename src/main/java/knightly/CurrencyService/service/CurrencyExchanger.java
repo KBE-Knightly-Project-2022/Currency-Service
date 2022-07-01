@@ -1,20 +1,25 @@
 package knightly.CurrencyService.service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class CurrencyExchanger {
     private final BigDecimal silverDecimal = new BigDecimal(10);
     private final BigDecimal goldDecimal = new BigDecimal(100);
     private final BigDecimal donkeyDecimal = new BigDecimal(400);
     private final BigDecimal cowDecimal = new BigDecimal(800);
+    private final String BRONZE = "bronze";
+    private final String SILVER = "silver";
+    private final String GOLD = "gold";
+    private final String DONKEY = "donkey";
+    private final String COW = "cow";
 
     public BigDecimal exchangeCurrency(int enteredAmount, String requestedCurrency) {
         return switch (requestedCurrency) {
-            case "silver" ->  convertToSilver(enteredAmount);
-            case "gold" -> convertToGold(enteredAmount);
-            case "donkey" -> convertToDonkey(enteredAmount);
-            case "cow" -> convertToCow(enteredAmount);
+            case BRONZE -> roundBigDecimal(new BigDecimal(enteredAmount));
+            case SILVER ->  convertToSilver(enteredAmount);
+            case GOLD -> convertToGold(enteredAmount);
+            case DONKEY -> convertToDonkey(enteredAmount);
+            case COW -> convertToCow(enteredAmount);
             default -> throw new IllegalStateException("Unexpected value: " + requestedCurrency);
         };
     }

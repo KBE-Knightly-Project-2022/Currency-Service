@@ -14,7 +14,7 @@ public class CurrencyServer {
     private final String REQUESTED_CURRENCY = "requestedCurrency";
     private final CurrencyExchanger currencyExchanger = new CurrencyExchanger();
 
-    @RabbitListener(queues = "${queue.name}")
+    @RabbitListener(queues = "${currency.queue.name}")
     public BigDecimal calculateCurrency(JSONObject message) {
 
         String requestedCurrency = "";
