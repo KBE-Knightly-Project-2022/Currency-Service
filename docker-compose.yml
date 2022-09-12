@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  app:
+    container_name: CurrencyService
+    command: java -jar target/CurrencyService-0.0.1-SNAPSHOT.jar
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8069:8069
+    expose:
+      - 8069
+    volumes:
+      - ./:/app/app
+    networks:
+      - services
+    restart: unless-stopped
+
+networks:
+  services:
+    name: Knightly
+    external: true

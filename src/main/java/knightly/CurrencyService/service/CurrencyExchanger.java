@@ -1,7 +1,10 @@
 package knightly.CurrencyService.service;
 
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 
+@Service
 public class CurrencyExchanger {
     private final BigDecimal silverDecimal = new BigDecimal(10);
     private final BigDecimal goldDecimal = new BigDecimal(100);
