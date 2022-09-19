@@ -14,7 +14,7 @@ public class CurrencyExchanger {
 
     public BigDecimal exchangeCurrency(int enteredAmount, Currency requestedCurrency) {
         return switch (requestedCurrency) {
-            case bronze -> roundBigDecimal(new BigDecimal(enteredAmount));
+            case bronze -> convertToBronze(enteredAmount);
             case silver ->  convertToSilver(enteredAmount);
             case gold -> convertToGold(enteredAmount);
             case donkey -> convertToDonkey(enteredAmount);
@@ -22,31 +22,35 @@ public class CurrencyExchanger {
             default -> throw new IllegalStateException("Unexpected value: " + requestedCurrency);
         };
     }
+    
+    private BigDecimal convertToBronze(int enteredAmount) {
+        return new BigDecimal(enteredAmount);        
+    }
 
-    private BigDecimal convertToSilver(int copper) {
-        BigDecimal copperDecimal = new BigDecimal(copper);
-        BigDecimal divided = copperDecimal.divide(this.silverDecimal);
+    private BigDecimal convertToSilver(int enteredAmount) {
+        BigDecimal enteredDecimal = new BigDecimal(enteredAmount);
+        BigDecimal divided = enteredDecimal.divide(this.silverDecimal);
 
         return roundBigDecimal(divided);
     }
 
-    private BigDecimal convertToGold(int copper) {
-        BigDecimal copperDecimal = new BigDecimal(copper);
-        BigDecimal divided = copperDecimal.divide(this.goldDecimal);
+    private BigDecimal convertToGold(int enteredAmount) {
+        BigDecimal enteredDecimal = new BigDecimal(enteredAmount);
+        BigDecimal divided = enteredDecimal.divide(this.goldDecimal);
 
         return roundBigDecimal(divided);
     }
 
-    private BigDecimal convertToDonkey(int copper) {
-        BigDecimal copperDecimal = new BigDecimal(copper);
-        BigDecimal divided = copperDecimal.divide(this.donkeyDecimal);
+    private BigDecimal convertToDonkey(int enteredAmount) {
+        BigDecimal enteredDecimal = new BigDecimal(enteredAmount);
+        BigDecimal divided = enteredDecimal.divide(this.donkeyDecimal);
 
         return roundBigDecimal(divided);
     }
 
-    private BigDecimal convertToCow(int copper) {
-        BigDecimal copperDecimal = new BigDecimal(copper);
-        BigDecimal divided = copperDecimal.divide(this.cowDecimal);
+    private BigDecimal convertToCow(int enteredAmount) {
+        BigDecimal enteredDecimal = new BigDecimal(enteredAmount);
+        BigDecimal divided = enteredDecimal.divide(this.cowDecimal);
 
         return roundBigDecimal(divided);
     }
