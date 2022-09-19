@@ -1,29 +1,29 @@
 package knightly.CurrencyService;
 
 import knightly.CurrencyService.enums.Currency;
-import knightly.CurrencyService.service.CurrencyExchanger;
+import knightly.CurrencyService.service.impl.CurrencyExchangerImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-public class CurrencyExchangerTest {
+public class CurrencyExchangerImplTest {
 
     private String SILVER = "silver";
     private String GOLD = "gold";
     private String COW = "cow";
     private String DONKEY = "donkey";
-    private CurrencyExchanger currencyExchanger;
+    private CurrencyExchangerImpl currencyExchangerImpl;
 
     @BeforeEach
     void setUp() {
-        this.currencyExchanger = new CurrencyExchanger();
+        this.currencyExchangerImpl = new CurrencyExchangerImpl();
     }
 
     @Test
     public void exchangeToSilverValid(){
-         BigDecimal exchangedCurrency = currencyExchanger.exchangeCurrency(100, Currency.silver);
+         BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(100, Currency.silver);
          BigDecimal expectedAmount = new BigDecimal("10.00");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
@@ -31,7 +31,7 @@ public class CurrencyExchangerTest {
 
     @Test
     public void exchangeToSilverRoundingValid(){
-        BigDecimal exchangedCurrency = currencyExchanger.exchangeCurrency(1666, Currency.silver);
+        BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(1666, Currency.silver);
         BigDecimal expectedAmount = new BigDecimal("166.60");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
@@ -39,7 +39,7 @@ public class CurrencyExchangerTest {
 
     @Test
     public void exchangeToSilverZeroValid(){
-        BigDecimal exchangedCurrency = currencyExchanger.exchangeCurrency(0, Currency.silver);
+        BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(0, Currency.silver);
         BigDecimal expectedAmount = new BigDecimal("0.00");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
@@ -47,7 +47,7 @@ public class CurrencyExchangerTest {
 
     @Test
     public void exchangeToGoldValid(){
-        BigDecimal exchangedCurrency = currencyExchanger.exchangeCurrency(400, Currency.gold);
+        BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(400, Currency.gold);
         BigDecimal expectedAmount = new BigDecimal("4.00");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
@@ -55,7 +55,7 @@ public class CurrencyExchangerTest {
 
     @Test
     public void exchangeToGoldRoundingValid(){
-        BigDecimal exchangedCurrency = currencyExchanger.exchangeCurrency(1666, Currency.gold);
+        BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(1666, Currency.gold);
         BigDecimal expectedAmount = new BigDecimal("16.66");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
@@ -63,7 +63,7 @@ public class CurrencyExchangerTest {
 
     @Test
     public void exchangeToDonkeyValid() {
-        BigDecimal exchangedCurrency = currencyExchanger.exchangeCurrency(800, Currency.donkey);
+        BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(800, Currency.donkey);
         BigDecimal expectedAmount = new BigDecimal("2.00");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
@@ -71,7 +71,7 @@ public class CurrencyExchangerTest {
 
     @Test
     public void exchangeToDonkeyRoundingValid() {
-        BigDecimal exchangedCurrency = currencyExchanger.exchangeCurrency(3333, Currency.donkey);
+        BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(3333, Currency.donkey);
         BigDecimal expectedAmount = new BigDecimal("8.33");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
@@ -79,7 +79,7 @@ public class CurrencyExchangerTest {
 
     @Test
     public void exchangeToCowValid() {
-        BigDecimal exchangedCurrency = currencyExchanger.exchangeCurrency(2400, Currency.cow);
+        BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(2400, Currency.cow);
         BigDecimal expectedAmount = new BigDecimal("3.00");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
@@ -87,7 +87,7 @@ public class CurrencyExchangerTest {
 
     @Test
     public void exchangeToCowRoundingValid() {
-        BigDecimal exchangedCurrency = currencyExchanger.exchangeCurrency(12489, Currency.cow);
+        BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(12489, Currency.cow);
         BigDecimal expectedAmount = new BigDecimal("15.61");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);

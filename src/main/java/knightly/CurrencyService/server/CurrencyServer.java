@@ -3,7 +3,6 @@ package knightly.CurrencyService.server;
 import knightly.CurrencyService.enums.Currency;
 import knightly.CurrencyService.server.dto.CurrencyRequest;
 import knightly.CurrencyService.service.CurrencyExchanger;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -15,7 +14,7 @@ import java.math.BigDecimal;
 public class CurrencyServer {
 
     @Autowired
-    CurrencyExchanger currencyExchanger;
+    CurrencyExchanger currencyExchangerImpl;
     private static final Logger logger = LoggerFactory.getLogger(CurrencyServer.class);
 
     @RabbitListener(queues = "${currency.queue.name}")
@@ -30,7 +29,7 @@ public class CurrencyServer {
             logger.error("Error while unpacking request in class:" + this.getClass());
         }
         try {
-            return currencyExchanger.exchangeCurrency(enteredAmount, requestedCurrency);
+            return currencyExchangerImpl.exchangeCurrency(enteredAmount, requestedCurrency);
         } catch (IllegalStateException e) {
             logger.error("Unkown currency, illegal State exception");
             return new BigDecimal("0");
