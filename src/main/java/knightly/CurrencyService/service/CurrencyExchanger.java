@@ -11,11 +11,6 @@ public class CurrencyExchanger {
     private final BigDecimal goldDecimal = new BigDecimal(100);
     private final BigDecimal donkeyDecimal = new BigDecimal(400);
     private final BigDecimal cowDecimal = new BigDecimal(800);
-    private final String BRONZE = "bronze";
-    private final String SILVER = "silver";
-    private final String GOLD = "gold";
-    private final String DONKEY = "donkey";
-    private final String COW = "cow";
 
     public BigDecimal exchangeCurrency(int enteredAmount, Currency requestedCurrency) {
         return switch (requestedCurrency) {
