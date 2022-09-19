@@ -1,5 +1,6 @@
 package knightly.CurrencyService.service;
 
+import knightly.CurrencyService.enums.Currency;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,13 +17,13 @@ public class CurrencyExchanger {
     private final String DONKEY = "donkey";
     private final String COW = "cow";
 
-    public BigDecimal exchangeCurrency(int enteredAmount, String requestedCurrency) {
+    public BigDecimal exchangeCurrency(int enteredAmount, Currency requestedCurrency) {
         return switch (requestedCurrency) {
-            case BRONZE -> roundBigDecimal(new BigDecimal(enteredAmount));
-            case SILVER ->  convertToSilver(enteredAmount);
-            case GOLD -> convertToGold(enteredAmount);
-            case DONKEY -> convertToDonkey(enteredAmount);
-            case COW -> convertToCow(enteredAmount);
+            case bronze -> roundBigDecimal(new BigDecimal(enteredAmount));
+            case silver ->  convertToSilver(enteredAmount);
+            case gold -> convertToGold(enteredAmount);
+            case donkey -> convertToDonkey(enteredAmount);
+            case cow -> convertToCow(enteredAmount);
             default -> throw new IllegalStateException("Unexpected value: " + requestedCurrency);
         };
     }

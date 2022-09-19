@@ -1,5 +1,7 @@
 package knightly.CurrencyService.server;
 
+import knightly.CurrencyService.enums.Currency;
+import knightly.CurrencyService.server.dto.CurrencyRequest;
 import knightly.CurrencyService.service.CurrencyExchanger;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -14,20 +16,17 @@ public class CurrencyServer {
 
     @Autowired
     CurrencyExchanger currencyExchanger;
-    private final String ENTERED_AMOUNT = "enteredAmount";
-    private int enteredAmount = 0;
-    private final String REQUESTED_CURRENCY = "requestedCurrency";
     private static final Logger logger = LoggerFactory.getLogger(CurrencyServer.class);
 
     @RabbitListener(queues = "${currency.queue.name}")
-    public BigDecimal calculateCurrency(JSONObject message) {
+    public BigDecimal calculateCurrency(CurrencyRequest currencyRequest) {
 
-        String requestedCurrency = "bronze";
-        enteredAmount = 0;
+        Currency requestedCurrency = Currency.bronze;
+        int enteredAmount = 0;
         try {
-            enteredAmount = (int) getIntFromPayload(message);
-            requestedCurrency = (String) getStringFromPayload(message);
-        } catch (NumberFormatException e) {
+            enteredAmount = currencyRequest.getEnteredAmount();
+            requestedCurrency = currencyRequest.getRequestedCurrency();
+        } catch (NumberFormatException | NullPointerException e) {
             logger.error("Error while unpacking request in class:" + this.getClass());
         }
         try {
@@ -36,14 +35,6 @@ public class CurrencyServer {
             logger.error("Unkown currency, illegal State exception");
             return new BigDecimal("0");
         }
-    }
-
-    private Object getIntFromPayload(JSONObject payload) {
-        return payload.get(ENTERED_AMOUNT);
-    }
-
-    private Object getStringFromPayload(JSONObject payload) {
-        return payload.get(REQUESTED_CURRENCY);
     }
 
 }
