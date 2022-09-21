@@ -20,7 +20,7 @@ public class CurrencyServer {
     private static final Logger logger = LoggerFactory.getLogger(CurrencyServer.class);
 
     @RabbitListener(queues = "${currency.queue.name}")
-    public BigDecimal calculateCurrency(String currencyRequestString) {
+    public String calculateCurrency(String currencyRequestString) {
 
         Currency requestedCurrency = Currency.bronze;
         int enteredAmount = 0;
@@ -32,17 +32,14 @@ public class CurrencyServer {
             logger.error("Error while unpacking request in class:" + this.getClass());
         }
         try {
-//            CurrencyReply currencyReply = new CurrencyReply(currencyExchangerImpl
-//                    .exchangeCurrency(enteredAmount, requestedCurrency));
-//            return convertCurrencyReplyToJson(currencyReply);
-            logger.info("calculating Currency with " + Integer.toString( enteredAmount) + requestedCurrency);
-            BigDecimal calculatedPrice = currencyExchangerImpl.exchangeCurrency(enteredAmount,requestedCurrency);
-            logger.info("returning" + calculatedPrice);
-            return calculatedPrice;
+            logger.info("calculating Currency with: " + Integer.toString( enteredAmount) + requestedCurrency);
+            CurrencyReply currencyReply = new CurrencyReply(
+                    currencyExchangerImpl
+                    .exchangeCurrency(enteredAmount, requestedCurrency));
+            return convertCurrencyReplyToJson(currencyReply);
         } catch (IllegalStateException e) {
             logger.error("Unkown currency, illegal State exception");
-//            return convertCurrencyReplyToJson(new CurrencyReply(new BigDecimal("0.00")));
-            return new BigDecimal("");
+            return createErrorCurrencyReply();
         }
     }
 
@@ -52,6 +49,10 @@ public class CurrencyServer {
 
     private CurrencyRequest convertJsonToCurrencyRequest(String json) {
         return new Gson().fromJson(json, CurrencyRequest.class);
+    }
+
+    private String createErrorCurrencyReply() {
+        return new Gson().toJson(new CurrencyReply(new BigDecimal("0.00")));
     }
 
 }
