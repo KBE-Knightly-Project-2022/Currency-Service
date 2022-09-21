@@ -1,6 +1,8 @@
 package knightly.CurrencyService.server;
 
+import com.google.gson.Gson;
 import knightly.CurrencyService.enums.Currency;
+import knightly.CurrencyService.server.dto.CurrencyReply;
 import knightly.CurrencyService.server.dto.CurrencyRequest;
 import knightly.CurrencyService.service.CurrencyExchanger;
 import org.slf4j.Logger;
@@ -18,22 +20,38 @@ public class CurrencyServer {
     private static final Logger logger = LoggerFactory.getLogger(CurrencyServer.class);
 
     @RabbitListener(queues = "${currency.queue.name}")
-    public BigDecimal calculateCurrency(CurrencyRequest currencyRequest) {
+    public BigDecimal calculateCurrency(String currencyRequestString) {
 
         Currency requestedCurrency = Currency.bronze;
         int enteredAmount = 0;
         try {
+            CurrencyRequest currencyRequest = convertJsonToCurrencyRequest(currencyRequestString);
             enteredAmount = currencyRequest.getEnteredAmount();
             requestedCurrency = currencyRequest.getRequestedCurrency();
         } catch (NumberFormatException | NullPointerException e) {
             logger.error("Error while unpacking request in class:" + this.getClass());
         }
         try {
-            return currencyExchangerImpl.exchangeCurrency(enteredAmount, requestedCurrency);
+//            CurrencyReply currencyReply = new CurrencyReply(currencyExchangerImpl
+//                    .exchangeCurrency(enteredAmount, requestedCurrency));
+//            return convertCurrencyReplyToJson(currencyReply);
+            logger.info("calculating Currency with " + Integer.toString( enteredAmount) + requestedCurrency);
+            BigDecimal calculatedPrice = currencyExchangerImpl.exchangeCurrency(enteredAmount,requestedCurrency);
+            logger.info("returning" + calculatedPrice);
+            return calculatedPrice;
         } catch (IllegalStateException e) {
             logger.error("Unkown currency, illegal State exception");
-            return new BigDecimal("0");
+//            return convertCurrencyReplyToJson(new CurrencyReply(new BigDecimal("0.00")));
+            return new BigDecimal("");
         }
+    }
+
+    public String convertCurrencyReplyToJson(CurrencyReply currencyReply) {
+        return new Gson().toJson(currencyReply);
+    }
+
+    private CurrencyRequest convertJsonToCurrencyRequest(String json) {
+        return new Gson().fromJson(json, CurrencyRequest.class);
     }
 
 }
