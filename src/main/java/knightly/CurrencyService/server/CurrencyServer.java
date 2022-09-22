@@ -20,7 +20,7 @@ public class CurrencyServer {
     private static final Logger logger = LoggerFactory.getLogger(CurrencyServer.class);
 
     @RabbitListener(queues = "${currency.queue.name}")
-    public String calculateCurrency(String currencyRequestString) {
+    public String handleCurrencyRequest(String currencyRequestString) {
 
         Currency requestedCurrency = Currency.bronze;
         int enteredAmount = 0;
@@ -32,7 +32,7 @@ public class CurrencyServer {
             logger.error("Error while unpacking request in class:" + this.getClass());
         }
         try {
-            logger.info("calculating Currency with: " + Integer.toString( enteredAmount) + requestedCurrency);
+            logger.info("calculating Currency with: " + Integer.toString( enteredAmount) + " "  + requestedCurrency);
             CurrencyReply currencyReply = new CurrencyReply(
                     currencyExchangerImpl
                     .exchangeCurrency(enteredAmount, requestedCurrency));
