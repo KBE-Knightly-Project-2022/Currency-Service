@@ -1,4 +1,4 @@
-package knightly.CurrencyService;
+package knightly.CurrencyService.service;
 
 import knightly.CurrencyService.enums.Currency;
 import knightly.CurrencyService.service.impl.CurrencyExchangerImpl;
