@@ -1,6 +1,7 @@
 package knightly.CurrencyService.server;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import knightly.CurrencyService.enums.Currency;
 import knightly.CurrencyService.server.dto.CurrencyReply;
 import knightly.CurrencyService.server.dto.CurrencyRequest;
@@ -28,7 +29,7 @@ public class CurrencyServer {
             CurrencyRequest currencyRequest = convertJsonToCurrencyRequest(currencyRequestString);
             enteredAmount = currencyRequest.getEnteredAmount();
             requestedCurrency = currencyRequest.getRequestedCurrency();
-        } catch (NumberFormatException | NullPointerException e) {
+        } catch (NumberFormatException | NullPointerException | JsonSyntaxException e) {
             logger.error("Error while unpacking request in class:" + this.getClass());
         }
         try {
