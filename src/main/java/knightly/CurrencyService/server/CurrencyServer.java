@@ -23,20 +23,21 @@ public class CurrencyServer {
     @RabbitListener(queues = "${currency.queue.name}")
     public String handleCurrencyRequest(String currencyRequestString) {
 
-        Currency requestedCurrency = Currency.bronze;
-        int enteredAmount = 0;
+        Currency requestedCurrency;
+        int enteredAmount;
         try {
             CurrencyRequest currencyRequest = convertJsonToCurrencyRequest(currencyRequestString);
             enteredAmount = currencyRequest.getEnteredAmount();
             requestedCurrency = currencyRequest.getRequestedCurrency();
+            logger.info("Got Currency Request with: " + enteredAmount + " " + requestedCurrency.toString());
         } catch (NumberFormatException | NullPointerException | JsonSyntaxException e) {
             logger.error("Error while unpacking request in class:" + this.getClass());
+            return createErrorCurrencyReply();
         }
         try {
-            logger.info("calculating Currency with: " + Integer.toString( enteredAmount) + " "  + requestedCurrency);
-            CurrencyReply currencyReply = new CurrencyReply(
-                    currencyExchangerImpl
-                    .exchangeCurrency(enteredAmount, requestedCurrency));
+            BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(enteredAmount, requestedCurrency);
+            logger.info("returning :" + exchangedCurrency);
+            CurrencyReply currencyReply = new CurrencyReply(exchangedCurrency);
             return convertCurrencyReplyToJson(currencyReply);
         } catch (IllegalStateException e) {
             logger.error("Unkown currency, illegal State exception");
