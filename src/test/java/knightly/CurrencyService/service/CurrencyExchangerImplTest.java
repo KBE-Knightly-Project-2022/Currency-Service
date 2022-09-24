@@ -60,7 +60,7 @@ public class CurrencyExchangerImplTest {
     @Test
     public void exchangeToDonkey() {
         BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(800, Currency.donkey);
-        BigDecimal expectedAmount = new BigDecimal("2.00");
+        BigDecimal expectedAmount = new BigDecimal("3.20");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
     }
@@ -68,7 +68,7 @@ public class CurrencyExchangerImplTest {
     @Test
     public void exchangeToDonkeyRounding() {
         BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(3333, Currency.donkey);
-        BigDecimal expectedAmount = new BigDecimal("8.33");
+        BigDecimal expectedAmount = new BigDecimal("13.33");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
     }
@@ -76,7 +76,7 @@ public class CurrencyExchangerImplTest {
     @Test
     public void exchangeToCow() {
         BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(2400, Currency.cow);
-        BigDecimal expectedAmount = new BigDecimal("3.00");
+        BigDecimal expectedAmount = new BigDecimal("4.80");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
     }
@@ -84,7 +84,7 @@ public class CurrencyExchangerImplTest {
     @Test
     public void exchangeToCowRounding() {
         BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(12489, Currency.cow);
-        BigDecimal expectedAmount = new BigDecimal("15.61");
+        BigDecimal expectedAmount = new BigDecimal("24.98");
 
         Assertions.assertEquals(expectedAmount, exchangedCurrency);
     }

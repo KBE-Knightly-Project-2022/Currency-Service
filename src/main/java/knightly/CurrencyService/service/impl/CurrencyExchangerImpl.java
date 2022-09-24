@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 public class CurrencyExchangerImpl implements CurrencyExchanger {
     private final BigDecimal silverDecimal = new BigDecimal(10);
     private final BigDecimal goldDecimal = new BigDecimal(100);
-    private final BigDecimal donkeyDecimal = new BigDecimal(400);
-    private final BigDecimal cowDecimal = new BigDecimal(800);
+    private final BigDecimal donkeyDecimal = new BigDecimal(250);
+    private final BigDecimal cowDecimal = new BigDecimal(500);
 
     @Override
     public BigDecimal exchangeCurrency(int enteredAmount, Currency requestedCurrency) {
