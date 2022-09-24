@@ -10,10 +10,6 @@ import java.math.BigDecimal;
 
 public class CurrencyExchangerImplTest {
 
-    private String SILVER = "silver";
-    private String GOLD = "gold";
-    private String COW = "cow";
-    private String DONKEY = "donkey";
     private CurrencyExchangerImpl currencyExchangerImpl;
 
     @BeforeEach
