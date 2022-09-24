@@ -18,6 +18,14 @@ public class CurrencyExchangerImplTest {
     }
 
     @Test
+    public void exchangeToBronze() {
+        BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(50, Currency.bronze);
+        BigDecimal expectedAmount = new BigDecimal("50.00");
+
+        Assertions.assertEquals(expectedAmount, exchangedCurrency);
+    }
+
+    @Test
     public void exchangeToSilver(){
          BigDecimal exchangedCurrency = currencyExchangerImpl.exchangeCurrency(100, Currency.silver);
          BigDecimal expectedAmount = new BigDecimal("10.00");

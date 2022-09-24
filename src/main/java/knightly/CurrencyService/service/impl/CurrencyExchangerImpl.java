@@ -26,7 +26,9 @@ public class CurrencyExchangerImpl implements CurrencyExchanger {
     }
     
     private BigDecimal convertToBronze(int enteredAmount) {
-        return new BigDecimal(enteredAmount);        
+        BigDecimal bronzeDecimal = new BigDecimal(enteredAmount);
+
+        return roundBigDecimal(bronzeDecimal);
     }
 
     private BigDecimal convertToSilver(int enteredAmount) {
